@@ -62,7 +62,6 @@ def draw_emote(body_color, body_style,
         r = mw * 0.5
         draw.ellipse([(mx-r, my-r), (mx+r, my+r)], outline=mouth_color, width=thickness * SCALE)
     else:  # 'Tongue'
-        # simple arc with tongue
         draw.arc([(mx-mw, my-mh), (mx+mw, my+mh)], 0, 180, fill=mouth_color, width=thickness * SCALE)
         draw.rectangle([(mx- mw*0.3, my), (mx+ mw*0.3, my+mh*0.6)], fill='pink')
 
@@ -81,7 +80,6 @@ def draw_emote(body_color, body_style,
             draw.arc([(x-brow_length, yb-brow_length), (x+brow_length, yb+brow_length)], 180, 360, fill=brow_color, width=thickness * SCALE)
         # 'None' draws nothing
 
-    # Downscale for smoothing
     return img.resize((BASE_SIZE, BASE_SIZE), resample=Image.LANCZOS)
 
 # Sidebar UI
@@ -96,7 +94,7 @@ body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'])
 
 # Eye options
 st.sidebar.subheader("Eyes")
-ey_color = st.sidebar.color_picker("Eye color", "#000000")
+eye_color = st.sidebar.color_picker("Eye color", "#000000")
 eye_style = st.sidebar.selectbox("Eye style", ['Filled', 'Outline'])
 eye_shape = st.sidebar.selectbox("Eye shape", ['Open', 'Closed'])
 
@@ -110,20 +108,6 @@ st.sidebar.subheader("Eyebrows")
 eyebrows = st.sidebar.selectbox("Eyebrow style", ['None', 'Straight', 'Angled', 'Raised', 'Sad'])
 brow_color = st.sidebar.color_picker("Brow color", "#000000")
 brow_style = eyebrows
-
-def generate_svg(params):
-    # Simple SVG output matching current emote
-    w, h = BASE_SIZE, BASE_SIZE
-    cx, cy, r = w/2, h/2, (w/2 - 10)
-    svg = [f'<svg width="{w}" height="{h}" xmlns="http://www.w3.org/2000/svg">']
-    # Body
-    if params['body_style']=='Filled':
-        svg.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{params["body_color"]}"/>')
-    else:
-        svg.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{params["body_color"]}" stroke-width="{params["thickness"]}"/>')
-    # ... (eyes, mouth, brows omitted for brevity) ...
-    svg.append('</svg>')
-    return '\n'.join(svg)
 
 # Draw and show
 img = draw_emote(body_color, body_style,
@@ -145,5 +129,16 @@ for fmt, col in zip(formats, cols):
         img.resize((w, h)).save(buf, format='PNG')
         col.download_button("Download PNG", buf.getvalue(), file_name=f"emote_{w}x{h}.png", mime="image/png")
     else:
-        svg_str = generate_svg(locals())
-        col.download_button("Download SVG", svg_str, file_name="emote.svg", mime="image/svg+xml") 
+        svg_str = generate_svg({
+            'body_color': body_color,
+            'body_style': body_style,
+            'eye_color': eye_color,
+            'eye_style': eye_style,
+            'eye_shape': eye_shape,
+            'mouth_color': mouth_color,
+            'mouth_style': mouth_style,
+            'brow_color': brow_color,
+            'brow_style': brow_style,
+            'thickness': thickness
+        })
+        col.download_button("Download SVG", svg_str, file_name="emote.svg", mime="image/svg+xml")
