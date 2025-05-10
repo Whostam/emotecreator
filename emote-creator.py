@@ -8,7 +8,7 @@ SCALE = 4  # for antialiasing
 TRUE_SIZE = BASE_SIZE * SCALE
 
 # Drawing function
- def draw_emote(body_color, body_style,
+def draw_emote(body_color, body_style,
                eye_color, eye_style, eye_shape,
                mouth_color, mouth_style,
                brow_color, brow_style,
@@ -34,7 +34,6 @@ TRUE_SIZE = BASE_SIZE * SCALE
 
     for idx, (ex, ey) in enumerate(eye_positions):
         bb = [(ex - eye_r, ey - eye_r), (ex + eye_r, ey + eye_r)]
-        # Eye drawing by shape
         if eye_shape == 'Open':
             if eye_style == 'Filled':
                 draw.ellipse(bb, fill=eye_color)
@@ -68,7 +67,6 @@ TRUE_SIZE = BASE_SIZE * SCALE
     mx, my = cx, cy + radius * 0.4
     mw = radius * 0.5
     mh = radius * 0.2
-
     if mouth_style == 'Smile':
         draw.arc([(mx - mw, my - mh), (mx + mw, my + mh)], start=0, end=180, fill=mouth_color, width=thickness * SCALE)
     elif mouth_style == 'Frown':
@@ -113,17 +111,14 @@ TRUE_SIZE = BASE_SIZE * SCALE
         elif brow_style == 'Zigzag':
             pts = [(ex - brow_len, yb), (ex - brow_len/2, yb - brow_len/2), (ex, yb), (ex + brow_len/2, yb - brow_len/2), (ex + brow_len, yb)]
             draw.line(pts, fill=brow_color, width=thickness * SCALE)
-        elif brow_style == 'RaisedAngled':
-            draw.line([(ex - brow_len, yb + brow_len * 0.2), (ex, yb - brow_len * 0.2), (ex + brow_len, yb + brow_len * 0.2)], fill=brow_color, width=thickness * SCALE)
-        elif brow_style == 'Slanted':
-            draw.line([(ex - brow_len, yb + brow_len), (ex + brow_len, yb - brow_len)], fill=brow_color, width=thickness * SCALE)
 
     # Downsample for smooth edges
     return img.resize((BASE_SIZE, BASE_SIZE), resample=Image.LANCZOS)
 
 # SVG generator stub (optional)
 def generate_svg(params):
-    return '<svg></svg>'
+    # TODO: Implement full SVG output mirroring draw_emote
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="{0}" height="{0}"></svg>'.format(BASE_SIZE)
 
 # Streamlit UI
 st.sidebar.title("Emote Creator")
@@ -150,7 +145,7 @@ st.sidebar.subheader("Eyebrows")
 brow_color = st.sidebar.color_picker("Brow color", "#000000")
 brow_style = st.sidebar.selectbox(
     "Eyebrow style",
-    ['None', 'Straight', 'Angled', 'Raised', 'Sad', 'Frown', 'Rounded', 'Zigzag', 'RaisedAngled', 'Slanted']
+    ['None', 'Straight', 'Angled', 'Raised', 'Sad', 'Frown', 'Rounded', 'Zigzag']
 )
 
 # Render and display
