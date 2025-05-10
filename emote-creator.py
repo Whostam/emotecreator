@@ -122,12 +122,12 @@ def generate_svg(params):
 
 # Streamlit UI
 st.sidebar.title("Emote Creator")
-thickness = st.sidebar.slider("Line thickness", 1, 20, 4)
-body_color = st.sidebar.color_picker("Body color", "#000000")
+thickness = st.sidebar.slider("Line thickness", 1, 20, 10)  # default thickness 10
+body_color = st.sidebar.color_picker("Body color", "#FF0000")  # default red
 body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'])
 
 st.sidebar.subheader("Eyes")
-eye_color = st.sidebar.color_picker("Eye color", "#000000")
+eye_color = st.sidebar.color_picker("Eye color", "#FF0000")  # default red
 eye_style = st.sidebar.selectbox("Eye style", ['Filled', 'Outline'])
 eye_shape = st.sidebar.selectbox(
     "Eye shape",
@@ -135,14 +135,14 @@ eye_shape = st.sidebar.selectbox(
 )
 
 st.sidebar.subheader("Mouth")
-mouth_color = st.sidebar.color_picker("Mouth color", "#000000")
+mouth_color = st.sidebar.color_picker("Mouth color", "#FF0000")  # default red
 mouth_style = st.sidebar.selectbox(
     "Mouth type",
     ['Smile', 'Frown', 'Neutral', 'Surprised', 'Tongue', 'Laugh', 'Sad', 'OpenSmile', 'Grimace', 'Oops']
 )
 
 st.sidebar.subheader("Eyebrows")
-brow_color = st.sidebar.color_picker("Brow color", "#000000")
+brow_color = st.sidebar.color_picker("Brow color", "#FF0000")  # default red
 brow_style = st.sidebar.selectbox(
     "Eyebrow style",
     ['None', 'Straight', 'Angled', 'Raised', 'Sad', 'Frown', 'Rounded', 'Zigzag']
