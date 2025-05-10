@@ -13,7 +13,6 @@ def draw_emote(body_color, body_style,
                mouth_color, mouth_style,
                brow_color, brow_style,
                thickness):
-    # Create high-res canvas
     img = Image.new("RGBA", (TRUE_SIZE, TRUE_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     cx, cy = TRUE_SIZE // 2, TRUE_SIZE // 2
@@ -96,7 +95,9 @@ def draw_emote(body_color, body_style,
     brow_len = eye_r * 1.5
     for ex, ey in eye_positions:
         yb = ey - brow_offset
-        if brow_style == 'Straight':
+        if brow_style == 'None':
+            continue
+        elif brow_style == 'Straight':
             draw.line([(ex - brow_len, yb), (ex + brow_len, yb)], fill=brow_color, width=thickness * SCALE)
         elif brow_style == 'Angled':
             draw.line([(ex - brow_len, yb + brow_len * 0.3), (ex + brow_len, yb - brow_len * 0.3)], fill=brow_color, width=thickness * SCALE)
@@ -115,37 +116,39 @@ def draw_emote(body_color, body_style,
     # Downsample for smooth edges
     return img.resize((BASE_SIZE, BASE_SIZE), resample=Image.LANCZOS)
 
-# SVG generator stub (optional)
-def generate_svg(params):
-    # TODO: Implement full SVG output mirroring draw_emote
+# SVG generator stub
+ def generate_svg(params):
     return '<svg xmlns="http://www.w3.org/2000/svg" width="{0}" height="{0}"></svg>'.format(BASE_SIZE)
 
 # Streamlit UI
 st.sidebar.title("Emote Creator")
-thickness = st.sidebar.slider("Line thickness", 1, 20, 10)  # default thickness 10
-body_color = st.sidebar.color_picker("Body color", "#FF0000")  # default red
-body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'])
+thickness = st.sidebar.slider("Line thickness", 1, 20, 10)
+body_color = st.sidebar.color_picker("Body color", "#2AFF00")  # default green
+body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'], index=1)  # default Outline
 
 st.sidebar.subheader("Eyes")
-eye_color = st.sidebar.color_picker("Eye color", "#FF0000")  # default red
-eye_style = st.sidebar.selectbox("Eye style", ['Filled', 'Outline'])
+ey_color = st.sidebar.color_picker("Eye color", "#2AFF00")  # default green
+eye_style = st.sidebar.selectbox("Eye style", ['Filled', 'Outline'], index=0)
 eye_shape = st.sidebar.selectbox(
     "Eye shape",
-    ['Open', 'Closed', 'Wink', 'Happy', 'Sad', 'Surprised', 'Sleepy', 'Angry', 'Excited', 'Dazed']
+    ['Open', 'Closed', 'Wink', 'Happy', 'Sad', 'Surprised', 'Sleepy', 'Angry', 'Excited', 'Dazed'],
+    index=0  # default Open
 )
 
 st.sidebar.subheader("Mouth")
-mouth_color = st.sidebar.color_picker("Mouth color", "#FF0000")  # default red
+mouth_color = st.sidebar.color_picker("Mouth color", "#2AFF00")  # default green
 mouth_style = st.sidebar.selectbox(
     "Mouth type",
-    ['Smile', 'Frown', 'Neutral', 'Surprised', 'Tongue', 'Laugh', 'Sad', 'OpenSmile', 'Grimace', 'Oops']
+    ['Smile', 'Frown', 'Neutral', 'Surprised', 'Tongue', 'Laugh', 'Sad', 'OpenSmile', 'Grimace', 'Oops'],
+    index=0  # default Smile
 )
 
 st.sidebar.subheader("Eyebrows")
-brow_color = st.sidebar.color_picker("Brow color", "#FF0000")  # default red
+brow_color = st.sidebar.color_picker("Brow color", "#2AFF00")  # default green
 brow_style = st.sidebar.selectbox(
     "Eyebrow style",
-    ['None', 'Straight', 'Angled', 'Raised', 'Sad', 'Frown', 'Rounded', 'Zigzag']
+    ['None', 'Straight', 'Angled', 'Raised', 'Sad', 'Frown', 'Rounded', 'Zigzag'],
+    index=0  # default None
 )
 
 # Render and display
