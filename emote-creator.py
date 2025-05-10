@@ -89,23 +89,35 @@ st.image(img, use_column_width=True)
 st.sidebar.subheader("Download")
 res = st.sidebar.selectbox("Resolution", ['400x400','800x800','1200x1200'])
 formats = st.sidebar.multiselect("Formats", ['PNG','SVG'])
-cols = st.sidebar.columns(len(formats))
-for fmt, col in zip(formats, cols):
-    if fmt=='PNG':
-        w,h = map(int,res.split('x'))
-        buf=io.BytesIO(); img.resize((w,h)).save(buf,format='PNG')
-        col.download_button("Download PNG",buf.getvalue(),file_name=f"emote_{w}x{h}.png",mime="image/png")
-    else:
-        svg = generate_svg({
-            'body_color': body_color,
-            'body_style': body_style,
-            'eye_color': eye_color,
-            'eye_style': eye_style,
-            'eye_shape': eye_shape,
-            'mouth_color': mouth_color,
-            'mouth_style': mouth_style,
-            'brow_color': brow_color,
-            'brow_style': brow_style,
-            'thickness': thickness
-        })
-        col.download_button("Download SVG", svg, file_name="emote.svg", mime="image/svg+xml")
+if formats:
+    cols = st.sidebar.columns(len(formats))
+    for fmt, col in zip(formats, cols):
+        if fmt=='PNG':
+            w, h = map(int, res.split('x'))
+            buf = io.BytesIO()
+            img.resize((w, h)).save(buf, format='PNG')
+            col.download_button(
+                "Download PNG",
+                buf.getvalue(),
+                file_name=f"emote_{w}x{h}.png",
+                mime="image/png"
+            )
+        else:
+            svg = generate_svg({
+                'body_color': body_color,
+                'body_style': body_style,
+                'eye_color': eye_color,
+                'eye_style': eye_style,
+                'eye_shape': eye_shape,
+                'mouth_color': mouth_color,
+                'mouth_style': mouth_style,
+                'brow_color': brow_color,
+                'brow_style': brow_style,
+                'thickness': thickness
+            })
+            col.download_button(
+                "Download SVG",
+                svg,
+                file_name="emote.svg",
+                mime="image/svg+xml"
+            )
