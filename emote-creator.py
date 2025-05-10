@@ -146,4 +146,4 @@ for fmt, col in zip(formats, cols):
         col.download_button("Download PNG", buf.getvalue(), file_name=f"emote_{w}x{h}.png", mime="image/png")
     else:
         svg_str = generate_svg(locals())
-        col.download_button("Download SVG", svg_str, file_name="emote.svg", mime="image/svg+xml")
+        col.download_button("Download SVG", svg_str, file_name="emote.svg", mime="image/svg+xml") 
