@@ -13,6 +13,7 @@ def draw_emote(body_color, body_style,
                mouth_color, mouth_style,
                brow_color, brow_style,
                thickness):
+    # Create high-res canvas
     img = Image.new("RGBA", (TRUE_SIZE, TRUE_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     cx, cy = TRUE_SIZE // 2, TRUE_SIZE // 2
@@ -117,38 +118,38 @@ def draw_emote(body_color, body_style,
     return img.resize((BASE_SIZE, BASE_SIZE), resample=Image.LANCZOS)
 
 # SVG generator stub
- def generate_svg(params):
+def generate_svg(params):
     return '<svg xmlns="http://www.w3.org/2000/svg" width="{0}" height="{0}"></svg>'.format(BASE_SIZE)
 
 # Streamlit UI
 st.sidebar.title("Emote Creator")
 thickness = st.sidebar.slider("Line thickness", 1, 20, 10)
 body_color = st.sidebar.color_picker("Body color", "#2AFF00")  # default green
-body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'], index=1)  # default Outline
+body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'], index=1)
 
 st.sidebar.subheader("Eyes")
-ey_color = st.sidebar.color_picker("Eye color", "#2AFF00")  # default green
+eye_color = st.sidebar.color_picker("Eye color", "#2AFF00")
 eye_style = st.sidebar.selectbox("Eye style", ['Filled', 'Outline'], index=0)
 eye_shape = st.sidebar.selectbox(
     "Eye shape",
     ['Open', 'Closed', 'Wink', 'Happy', 'Sad', 'Surprised', 'Sleepy', 'Angry', 'Excited', 'Dazed'],
-    index=0  # default Open
+    index=0
 )
 
 st.sidebar.subheader("Mouth")
-mouth_color = st.sidebar.color_picker("Mouth color", "#2AFF00")  # default green
+mouth_color = st.sidebar.color_picker("Mouth color", "#2AFF00")
 mouth_style = st.sidebar.selectbox(
     "Mouth type",
     ['Smile', 'Frown', 'Neutral', 'Surprised', 'Tongue', 'Laugh', 'Sad', 'OpenSmile', 'Grimace', 'Oops'],
-    index=0  # default Smile
+    index=0
 )
 
 st.sidebar.subheader("Eyebrows")
-brow_color = st.sidebar.color_picker("Brow color", "#2AFF00")  # default green
+brow_color = st.sidebar.color_picker("Brow color", "#2AFF00")
 brow_style = st.sidebar.selectbox(
     "Eyebrow style",
     ['None', 'Straight', 'Angled', 'Raised', 'Sad', 'Frown', 'Rounded', 'Zigzag'],
-    index=0  # default None
+    index=0
 )
 
 # Render and display
