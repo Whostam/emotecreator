@@ -127,7 +127,7 @@ body_color = st.sidebar.color_picker("Body color", "#000000")
 body_style = st.sidebar.selectbox("Body style", ['Filled', 'Outline'])
 
 st.sidebar.subheader("Eyes")
-ey_color = st.sidebar.color_picker("Eye color", "#000000")
+eye_color = st.sidebar.color_picker("Eye color", "#000000")
 eye_style = st.sidebar.selectbox("Eye style", ['Filled', 'Outline'])
 eye_shape = st.sidebar.selectbox(
     "Eye shape",
